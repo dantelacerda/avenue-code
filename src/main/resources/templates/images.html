@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width" />
+	<title>Images</title>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"></link>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Avenue Code!</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+           		<li th:classappend="${module == 'tasks-ld' ? 'active' : ''}">
+                    <a href="#" th:href="@{/}">Home</a>
+               	    </li>
+                <li th:classappend="${module == 'tasks-ld' ? 'active' : ''}">
+                    <a href="#" th:href="@{/products}">Products</a>
+                </li>
+                <li th:classappend="${module == 'tasks-ld' ? 'active' : ''}">
+                    <a href="#" th:href="@{/images}">Images</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<strong>Images</strong>
+		</div>
+		<div class="panel-body">
+			<div class="table-responsive">
+			
+			<br /> <strong>Filter</strong> <br />
+				<br />
+			<form class="form-horizontal" th:object="${image}"
+					th:action="@{/searchImage}" method="POST" style="margin: 10px">
+					<table
+						class="table table-sm table-striped table-hover table-bordered">
+						<tr>
+							<td><label>Id:</label> <input type="text"
+								th:field="*{id}" /></td>
+						</tr>
+						<tr>
+							<td><label>Type:</label> <input type="text"
+								th:field="*{type}" /></td>
+						</tr>
+						<tr>
+							<td>
+								<button type="submit" class="btn btn-sm btn-primary">Search</button>
+							</td>
+						</tr>
+					</table>
+				</form>
+
+				<br /> <strong>Images</strong> <br />
+				<br />
+			
+				<table class="table table-sm table-striped table-hover table-bordered">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Type</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="image : ${images}">
+							<td th:text="${image.id}"></td>
+							<td th:text="${image.type}"></td>
+							<td>
+								<div class="btn-group pull-right">
+							   		<a class="btn btn-sm btn-primary" th:href="@{/editImage/{id}(id=${image.id})}" >Edit</a>
+							   		<a class="delete btn btn-sm btn-danger" th:href="@{/deleteImage/{id}(id=${image.id})}" th:if="${!image.associated}">Delete</a>
+							   </div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<br /> <strong>Ps: You can´t delete an image that is being used by a Product. How will I know what am I getting? (:</strong> <br />
+			</div>
+		</div>
+		<div class="panel-footer">
+			<a class="btn btn-sm btn-success" th:href="@{/addImage/}" >New Image</a>
+		</div>
+	</div>
+</body>
+</html>

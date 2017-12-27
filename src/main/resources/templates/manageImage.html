@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>Image</title>
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet"></link>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Avenue Code!</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li th:classappend="${module == 'tasks-ld' ? 'active' : ''}">
+                    <a href="#" th:href="@{/}">Home</a>
+               	    </li>
+                <li th:classappend="${module == 'tasks-ld' ? 'active' : ''}">
+                    <a href="#" th:href="@{/products}">Products</a>
+                </li>
+                <li th:classappend="${module == 'tasks-ld' ? 'active' : ''}">
+                    <a href="#" th:href="@{/images}">Images</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<strong>Image</strong>
+		</div>
+		<div class="panel-body">
+			<form class="form-horizontal" th:object="${image}"
+				th:action="@{/saveImage}" method="POST" style="margin: 10px">
+				<div class="form-group">
+					<fieldset>
+						<div class="form-group row">
+							<div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
+								<div th:each="detailedError : ${#fields.detailedErrors()}">
+									<span th:text="${detailedError.message}"></span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-md-1">
+								<input type="text" class="form-control input-sm" id="id"
+									th:field="*{id}" readOnly="readonly" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-md-4"
+								th:classappend="${#fields.hasErrors('type')}? 'has-error'">
+								<label>Type</label> <input type="text"
+									class="form-control input-sm" th:field="*{type}"
+									autofocus="autofocus" placeholder="Please insert the Type of the image"
+									maxlength="50" />
+							</div>
+						</div>
+
+					</fieldset>
+				</div>
+				<div class="form-group row">
+					<button type="submit" class="btn btn-sm btn-primary">Save</button>
+					<a th:href="@{/images}" class="btn btn-sm btn-default">Cancel</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
